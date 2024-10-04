@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot Main Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fff;
+            color: #000;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-theme {
+            background-color: #121212;
+            color: #f0f0f0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.3s;
+        }
+
+        header.dark-theme {
+            background-color: #1e1e1e;
+            border-bottom: 1px solid #333;
+        }
+
+        .logo img {
+            width: 150px;
+            height: auto;
+        }
+
+        nav {
+            flex-grow: 1;
+            margin-left: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #000;
+            font-size: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #f9c302;
+        }
+
+        /* Dark theme styles for navbar */
+        .dark-theme nav {
+            background-color: #1e1e1e;
+        }
+
+        .dark-theme nav ul li a {
+            color: #f0f0f0;
+        }
+
+        .dark-theme nav ul li a:hover {
+            color: #f9c302;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .signup-btn,
+        .login-btn {
+            padding: 10px 20px;
+            background-color: #f9c302;
+            border: none;
+            border-radius: 20px;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .login-btn {
+            background-color: #555;
+        }
+
+        .dark-theme .signup-btn,
+        .dark-theme .login-btn {
+            background-color: #333;
+        }
+
+        .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 80vh;
+            background-color: #f6f6f6;
+            padding: 50px;
+            transition: background-color 0.3s;
+        }
+
+        body.dark-theme .hero-section {
+            background-color: #1e1e1e;
+        }
+
+        .chatbot-image img {
+            width: 350px;
+            height: auto;
+        }
+
+        .chatbot-text {
+            margin-left: 50px;
+        }
+
+        .chatbot-text h1 {
+            font-size: 64px;
+            font-weight: bold;
+            color: #000;
+            transition: color 0.3s;
+        }
+
+        body.dark-theme .chatbot-text h1 {
+            color: #f0f0f0;
+        }
+
+        .chatbot-text p {
+            font-size: 18px;
+            color: #666;
+            margin: 20px 0;
+            transition: color 0.3s;
+        }
+
+        body.dark-theme .chatbot-text p {
+            color: #ccc;
+        }
+
+        .start-chat-btn {
+            padding: 15px 30px;
+            background-color: #f9c302;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* Hamburger Menu Icon */
+        .menu-toggle {
+            display: none;
+            font-size: 30px;
+            cursor: pointer;
+            color: #000;
+        }
+
+        .dark-theme .menu-toggle {
+            color: #f0f0f0;
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            background-color: #fff;
+            position: absolute;
+            top: 80px;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            padding: 20px;
+            border: 1px solid #ddd;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dropdown-menu.show {
+            display: flex;
+        }
+
+        .dark-theme .dropdown-menu {
+            background-color: #1e1e1e;
+            border-color: #333;
+        }
+
+        .dropdown-menu ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        .dropdown-menu ul li a {
+            font-size: 18px;
+            color: #000;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+            display: block;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dark-theme .dropdown-menu ul li a {
+            color: #f0f0f0;
+            border-bottom-color: #333;
+        }
+
+        .dropdown-menu ul li a:hover {
+            background-color: #f9c302;
+            color: #fff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .auth-buttons {
+                display: none;
+            }
+
+            .dropdown-menu.show {
+                display: flex;
+            }
+
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .chatbot-text {
+                margin-left: 0;
+                margin-top: 20px;
+            }
+
+            .chatbot-text h1 {
+                font-size: 48px;
+            }
+
+            .chatbot-image img {
+                width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chatbot-text h1 {
+                font-size: 36px;
+            }
+
+            .start-chat-btn {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        </div>
+        <nav>
+            <ul class="desktop-nav">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Our Service</a></li>
+                <li><a href="#">Portfolio</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#" id="theme-toggle">Dark Mode</a></li> <!-- Dark Mode Toggle -->
+            </ul>
+            <span class="menu-toggle">☰</span> <!-- Hamburger icon -->
+            <div class="auth-buttons">
+                <a href="#" class="signup-btn">Sign Up</a>
+                <a href="#" class="login-btn">Login</a>
+            </div>
+        </nav>
+        <div class="dropdown-menu">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Our Service</a></li>
+                <li><a href="#">Portfolio</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#" id="theme-toggle-mobile">Dark Mode</a></li> <!-- Dark Mode Toggle in dropdown -->
+            </ul>
+            <div class="auth-buttons">
+                <a href="#" class="signup-btn">Sign Up</a>
+                <a href="#" class="login-btn">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="chatbot-image">
+            <img src="{{ url_for('static', filename='chatbot.png') }}" alt="Chatbot Image">
+        </div>
+        <div class="chatbot-text">
+            <h1>CHAT BOT</h1>
+            <p>
+            <h3> Welcome to Your AI-Powered Chatbot Experience!</h3>
+            In today's fast-paced digital world, effective communication is key to success. Our chatbot is designed to
+            provide you with instant support, enhancing user engagement while streamlining operations. Whether you're
+            looking to assist customers, gather feedback, or provide real-time information, our chatbot seamlessly
+            integrates into your platform to ensure a smooth interaction.
+
+            Why Choose Our Chatbot?
+
+            24/7 Availability: No more waiting for business hours; our chatbot is here to assist your users around the
+            clock.
+            Enhanced User Engagement: With conversational AI, you can provide personalized interactions that keep users
+            engaged and satisfied.
+            Efficiency at Scale: Handle multiple inquiries simultaneously without compromising on quality, allowing your
+            team to focus on more complex tasks.
+            Data Insights: Gain valuable insights from interactions, helping you improve your services and better
+            understand your audience.
+            Join us on this journey to revolutionize how you connect with your audience. Let’s start a conversation
+            today!
+
+            </p>
+            <a href="/chat" class="start-chat-btn">START CHAT</a>
+        </div>
+    </section>
+
+    <script>
+        // Toggle dropdown menu visibility
+        const menuToggle = document.querySelector('.menu-toggle');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+
+        menuToggle.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('show');
+        });
+
+        // Toggle dark theme
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            themeToggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+            themeToggleMobile.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+        themeToggleMobile.addEventListener('click', toggleTheme);
+    </script>
+</body>
+
+</html>
